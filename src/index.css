@@ -1,0 +1,104 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--reg-font);
+}
+
+body {
+  font-family: 'CircularXXWeb', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* For Webkit browsers (Chrome, Safari, Edge, etc.) */
+::-webkit-scrollbar {
+    width: 8px; /* Adjust the width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #6D28D9; /* Purple color for the scrollbar thumb */
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light color for the scrollbar track */
+  }
+  
+  .dynamic-content ul {
+    list-style-type: disc; /* Add bullets */
+    padding-left: 1.5rem; /* Indent the list */
+  }
+  
+  .dynamic-content li {
+    margin-bottom: 0.5rem; /* Add spacing between items */
+  }
+  .field:first-child{
+    align-items: center;
+  }
+  .profile-input:before{
+    display: none;
+  }
+  .profile-input:after{
+    display: none;
+  }
+  .profile-input {
+    margin-top: 5px !important;
+  }
+  .u-profile-datePicker .MuiInputBase-root {
+    background-color: #fff;
+    margin-top: 5px;
+  }
+  .u-profile-datePicker input {
+    padding: 9px;
+  }
+  .u-update-password {
+    position: relative;
+  }
+  .u-upade-password-icon {
+    position: absolute;
+    right: 12%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .u-upade-password-icon2 {
+    position: absolute;
+    right: 12%;
+    top: 33%;
+    transform: translateY(-50%);
+  }
+  .u-update-password-error + .u-upade-password-icon  {
+    top: 36%;
+}
+.u-update-password-error + .u-upade-password-icon2  {
+  top: 36%;
+}
+@media only screen and (max-width: 992px) {
+  .field:first-child{
+    align-items: flex-start;
+  }
+}
+
+
+
+.footer {
+  -premailer-cellpadding: 0;
+  -premailer-cellspacing: 0;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.footer p {
+  color: #807f8f;
+  font-size: 15px;
+  text-align: center;
+  font-family: var(--reg-font);
+}
+
+.footer a {
+  color: #b0adc5;
+  text-decoration: underline;
+}
