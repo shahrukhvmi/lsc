@@ -106,8 +106,8 @@ const ThankYou = () => {
               <p className="mt-2">
                 <span className="font-semibold underline text-black">Changes or cancellation:</span> If there are any changes you would like to make
                 to your order or to cancel it, please contact us immediately by email on{" "}
-                <a href="mailto:contact@mayfairweightlossclinic.co.uk." className="text-violet-700 font-semibold">
-                  contact@mayfairweightlossclinic.co.uk.
+                <a href="mailto:contact@londonslimmingclinic.co.uk." className="text-violet-700 font-semibold">
+                  contact@londonslimmingclinic.co.uk.
                 </a>{" "}
                 Please note that as once your medication has been dispensed you will not be able to cancel or return your order. This is due to
                 legislation around prescription only medication.

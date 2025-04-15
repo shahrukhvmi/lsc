@@ -144,7 +144,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
                       htmlFor="confirmNo"
                       className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${
                         field.value === "no"
-                          ? "border-violet-700 bg-violet-200"
+                          ? "border-primary bg-violet-200"
                           : "border-gray-300 bg-white"
                       }`}
                       onClick={handleNoSelection}
@@ -153,7 +153,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
                         <span
                           className={`text-sm font-semibold uppercase ${
                             field.value === "no"
-                              ? "text-violet-700"
+                              ? "text-primary"
                               : "text-gray-500"
                           }`}
                         >
@@ -161,7 +161,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
                         </span>
                         {field.value === "no" && (
                           <FaCheck
-                            color="#4565BF"
+                            color="#1F9E8C"
                             className="ml-5"
                             size={14}
                           />
@@ -188,7 +188,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
 
             <div className="flex justify-center">
               <button
-                className="px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md text-xs text-white uppercase tracking-widest hover:bg-violet-700 transition ease-in-out duration-150"
+                className="px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary border border-transparent rounded-md text-xs text-white uppercase tracking-widest hover:bg-primary transition ease-in-out duration-150"
                 type="submit"
                 disabled={!isValid || loading}
               >

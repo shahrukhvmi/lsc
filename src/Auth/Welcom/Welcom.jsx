@@ -23,10 +23,10 @@ const Welcome = () => {
     <>
       {isImpersonateLoading ? (
         <div className="flex justify-center items-center min-h-screen">
-          <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-        <div className="flex flex-col items-center bg-[#DACFFF] px-4 pt-6 justify-evenly" style={{ minHeight: "calc(100vh - 66px)" }}>
+        <div className="flex flex-col items-center bg-green-100 px-4 pt-6 justify-evenly" style={{ minHeight: "calc(100vh - 66px)" }}>
           {/* Page Heading */}
           {impersonateEmail || impersonateFromLocal ? (
             <>
@@ -74,7 +74,7 @@ const Welcome = () => {
                     <label
                       htmlFor="tab1"
                       className={`py-2 px-4 cursor-pointer text-sm font-semibold transition-all duration-200 ${
-                        selectedTab === "tab1" ? "bg-purple-600 text-white" : "text-gray-700"
+                        selectedTab === "tab1" ? "bg-primary text-white" : "text-gray-700"
                       }`}
                     >
                       <input
@@ -91,7 +91,7 @@ const Welcome = () => {
                     <label
                       htmlFor="tab2"
                       className={`py-2 px-4 cursor-pointer text-sm font-semibold transition-all duration-200 ${
-                        selectedTab === "tab2" ? "bg-purple-600 text-white" : "text-gray-700"
+                        selectedTab === "tab2" ? "bg-primary text-white" : "text-gray-700"
                       }`}
                     >
                       <input

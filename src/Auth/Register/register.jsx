@@ -90,7 +90,7 @@ const Register = () => {
                       message: "Invalid email address",
                     },
                   })}
-                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.email ? "border-red-500" : "border-gray-300"
                   }`}
                 />
@@ -117,7 +117,7 @@ const Register = () => {
                     e.preventDefault();
                     toast.error("Drag-and-drop is not allowed. Please type the Confirm Email.");
                   }}
-                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.confirmEmail ? "border-red-500" : "border-gray-300"
                   }`}
                 />
@@ -144,13 +144,13 @@ const Register = () => {
                       message: "Password must contain at least one uppercase letter, one number, and one special character",
                     },
                   })}
-                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.password ? "border-red-500" : "border-gray-300"
                   }`}
                 />
 
                 {/* Toggle Eye Icon */}
-                <div className="absolute right-3 top-[34px] cursor-pointer text-purple-600" onClick={handleClickShowPassword}>
+                <div className="absolute right-3 top-[34px] cursor-pointer text-primary" onClick={handleClickShowPassword}>
                   {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
                 </div>
 
@@ -188,13 +188,13 @@ const Register = () => {
                     e.preventDefault();
                     toast.error("Drag-and-drop is not allowed. Please type the Confirm Password.");
                   }}
-                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.confirmPassword ? "border-red-500" : "border-gray-300"
                   }`}
                 />
 
                 {/* Eye Icon Toggle */}
-                <div className="absolute right-3 top-[34px] cursor-pointer text-purple-600" onClick={handleClickShowConfirmPassword}>
+                <div className="absolute right-3 top-[34px] cursor-pointer text-primary" onClick={handleClickShowConfirmPassword}>
                   {showConfirmPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
                 </div>
 
@@ -207,7 +207,7 @@ const Register = () => {
                 <button
                   disabled={!isValid}
                   type="submit"
-                  className="inline-flex items-center px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-800 disabled:cursor-not-allowed bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                  className="inline-flex items-center px-6 py-2 disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:bg-bg-primary active:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                   {isLoading && (
                     <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

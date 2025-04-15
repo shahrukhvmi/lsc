@@ -11,8 +11,7 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import { setStep5 } from "../../store/slice/stepSlice";
 
-const Stepfive = ({ setHideSidebar }) => {
-  setHideSidebar(false);
+const Stepfive = () => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -391,7 +390,7 @@ const Stepfive = ({ setHideSidebar }) => {
                   />
                   <button
                     type="button"
-                    className="px-3 py-1.5 rounded text-white flex items-center ml-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200"
+                    className="px-3 py-1.5 rounded text-white flex items-center ml-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-primary hover:bg-primary transition-all duration-200"
                     disabled={btnZipCode}
                     onClick={() => {
                       setValue("addressOptions", []); // Clear previous address options
@@ -513,7 +512,7 @@ const Stepfive = ({ setHideSidebar }) => {
               {/* Back Button */}
               <button
                 onClick={() => dispatch(prevStep())}
-                className="flex flex-col items-center justify-center text-white rounded-md bg-violet-700 p-3"
+                className="flex flex-col items-center justify-center text-white rounded-md bg-primary p-3"
               >
                 <span className="text-md font-semibold px-6">Back</span>
               </button>
@@ -522,8 +521,8 @@ const Stepfive = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
+                  ? "disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary text-white rounded-md"
+                  : "text-white rounded-md bg-primary"
                   }`}
               >
                 {isLoading ? (

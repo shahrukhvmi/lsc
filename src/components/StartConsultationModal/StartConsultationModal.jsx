@@ -66,7 +66,7 @@ const StartConsultationModal = ({ text, loading, closeModel, onHandleConfirm }) 
             />
             {/* , purchasing_yourself ,confirmation */}
             <button
-              className="px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 transition ease-in-out duration-150"
+              className="px-6 py-2 disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-primary focus:bg-bg-primary active:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150"
               type="submit"
               onClick={onHandleConfirm}
               disabled={!abilityState || !PurchasingYourself || !isChecked || loading}

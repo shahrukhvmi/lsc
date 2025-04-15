@@ -8,7 +8,9 @@
     box-sizing: border-box;
     font-family: var(--reg-font);
 }
-
+/* .primary-color {
+  @apply text-[#1F9E8C];
+} */
 body {
   font-family: 'CircularXXWeb', 'Helvetica', 'Arial', sans-serif;
 }
@@ -19,7 +21,7 @@ body {
   }
   
   ::-webkit-scrollbar-thumb {
-    background-color: #6D28D9; /* Purple color for the scrollbar thumb */
+    background-color: #1F9E8C; /* Purple color for the scrollbar thumb */
     border-radius: 10px;
   }
   

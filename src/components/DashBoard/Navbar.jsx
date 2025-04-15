@@ -115,7 +115,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
 
       <div className="bg-white px-4 sm:px-6 lg:px-6 flex items-center justify-between relative">
         {/* Hamburger Button (only visible on mobile) */}
-        <button onClick={toggleSidebar} className="text-2xl text-violet-700 sm:hidden">
+        <button onClick={toggleSidebar} className="text-2xl text-primary sm:hidden">
           {isOpen ? <FiX /> : <FiMenu />}
         </button>
 

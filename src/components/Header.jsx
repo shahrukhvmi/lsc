@@ -69,16 +69,16 @@ const Header = () => {
     >
       {/* Logo - Centered, Only visible on non-login/register pages */}
       {!isAuth && (
-        <a className="text-base items-center space-x-1 hidden lg:flex reg-font text-black" href="mailto:contact@mayfairweightlossclinic.co.uk">
-          <MdEmail size="30" className="me-2 mb-0 text-[#5b45a7]" />
-          contact@mayfairweightlossclinic.co.uk{" "}
+        <a className="text-base items-center space-x-1 hidden lg:flex reg-font text-black" href="mailto:contact@londonslimmingclinic.co.uk">
+          <MdEmail size="30" className="me-2 mb-0 text-primary" />
+          contact@londonslimmingclinic.co.uk{" "}
         </a>
       )}
 
       {isAuth && (
-        <a className="text-base items-center space-x-1 hidden lg:flex reg-font text-black" href="mailto:contact@mayfairweightlossclinic.co.uk">
-          <MdEmail size="25" className="me-1 mb-0 text-[#5b45a7]" />
-          contact@mayfairweightlossclinic.co.uk{" "}
+        <a className="text-base items-center space-x-1 hidden lg:flex reg-font text-black" href="mailto:contact@londonslimmingclinic.co.uk">
+          <MdEmail size="25" className="me-1 mb-0 text-primary" />
+          contact@londonslimmingclinic.co.uk{" "}
         </a>
       )}
 
@@ -122,7 +122,7 @@ const Header = () => {
           <div class="w-1/2 items-center justify-end lg:w-[100%] sm:flex hidden">
             <p class="hidden md:block">Already have an account?</p>
             <a
-              class="inline-flex items-center px-6 py-2 bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150 false ml-4 "
+              class="inline-flex items-center px-6 py-2 bg-primary border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:bg-bg-primary active:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150 false ml-4 "
               href="/start-consultation/"
             >
               Login

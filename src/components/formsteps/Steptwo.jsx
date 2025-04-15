@@ -396,6 +396,7 @@ const Steptwo = () => {
 
   const onSubmit = async (data) => {
     const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
+   
 
     const BMI = {
       unit: unit,
@@ -422,39 +423,41 @@ const Steptwo = () => {
       },
       ethnicity: "",
     };
-    try {
-      const response = await postSteps({
-        bmi: BMI,
-        pid: getPid,
-      }).unwrap();
+    dispatch(setStep2(BMI));
+    dispatch(nextStep());
+    // try {
+    //   const response = await postSteps({
+    //     bmi: BMI,
+    //     pid: getPid,
+    //   }).unwrap();
 
-      if (response?.status === true) {
-        dispatch(setStep2(response?.lastConsultation?.fields?.bmi));
+    //   if (response?.status === true) {
+    //     dispatch(setStep2(response?.lastConsultation?.fields?.bmi));
 
-        if (reorderStatus === false) {
-          dispatch(triggerStep(7));
-          return;
-        }
-        if (reorderStatus === true) {
-          dispatch(nextStep());
-        } else {
-          dispatch(nextStep());
-          return;
-        }
-      } else {
-        toast.error("Invalid login response");
-      }
-    } catch (err) {
-      const errors = err?.data?.errors;
-      if (errors && typeof errors === "object") {
-        Object.keys(errors).forEach((key) => {
-          const errorMessage = errors[key];
-          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
-        });
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
-    }
+    //     if (reorderStatus === false) {
+    //       dispatch(triggerStep(7));
+    //       return;
+    //     }
+    //     if (reorderStatus === true) {
+    //       dispatch(nextStep());
+    //     } else {
+    //       dispatch(nextStep());
+    //       return;
+    //     }
+    //   } else {
+    //     toast.error("Invalid login response");
+    //   }
+    // } catch (err) {
+    //   const errors = err?.data?.errors;
+    //   if (errors && typeof errors === "object") {
+    //     Object.keys(errors).forEach((key) => {
+    //       const errorMessage = errors[key];
+    //       Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
+    //     });
+    //   } else {
+    //     toast.error("An unexpected error occurred.");
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -1191,7 +1194,7 @@ const Steptwo = () => {
           <div className="right | w-full lg:w-[350px]">
             <div className="hidden sm:block">
               <div
-                className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
+                className={`text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
                   ? bmi == 0
                     ? "bg-gray-100"
                     : bmi < 18.5

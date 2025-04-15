@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           
         </div>
 
-        <div className="align-middle ms-2 pt-2 text-2xl text-[#7c3aed]" onClick={toggleSidebar}>
+        <div className="align-middle ms-2 pt-2 text-2xl text-primary" onClick={toggleSidebar}>
           <FiX size={30} />
         </div>
       </div>
@@ -29,7 +29,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/dashboard/"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md tab-home ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
+            `flex items-center p-2 rounded-md tab-home ${isActive ? "bg-primary text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
           onClick={toggleSidebar}
         >
@@ -44,7 +44,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/orders/"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md tab-orders ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
+            `flex items-center p-2 rounded-md tab-orders ${isActive ? "bg-primary text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
           }
           onClick={toggleSidebar}
         >
@@ -59,7 +59,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/profile/"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  tab-profile ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
+            `flex items-center p-2 rounded-md  tab-profile ${isActive ? "bg-primary text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
           }
           onClick={toggleSidebar}
         >
@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/address/"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  tab-address ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
+            `flex items-center p-2 rounded-md  tab-address ${isActive ? "bg-primary text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
           onClick={toggleSidebar}
         >
@@ -89,7 +89,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/change-password/"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  tab-password ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
+            `flex items-center p-2 rounded-md  tab-password ${isActive ? "bg-primary text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
           onClick={toggleSidebar}
         >

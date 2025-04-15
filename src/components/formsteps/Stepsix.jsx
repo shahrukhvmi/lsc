@@ -6,9 +6,8 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import dayjs from "dayjs";
 
-const Stepsix = ({ setHideSidebar }) => {
-  setHideSidebar(false);
-  useEffect(() => {
+const Stepsix = () => {
+ useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth", // You can change to "auto" for instant scrolling

@@ -138,7 +138,7 @@ const Login = ({ setIsImpersonateLoading }) => {
                       message: "Invalid email address",
                     },
                   })}
-                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.email ? "border-red-500" : "border-gray-300"
+                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary ${errors.email ? "border-red-500" : "border-gray-300"
                     }`}
                   autoFocus
                 />
@@ -165,12 +165,12 @@ const Login = ({ setIsImpersonateLoading }) => {
                     //   message: "Must contain uppercase, number & special char",
                     // },
                   })}
-                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.password ? "border-red-500" : "border-gray-300"
+                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:primary ${errors.password ? "border-red-500" : "border-gray-300"
                     }`}
                 />
 
                 {/* Eye Icon */}
-                <div className="absolute right-3 top-[36px] cursor-pointer text-purple-600" onClick={() => setShowPassword((prev) => !prev)}>
+                <div className="absolute right-3 top-[36px] cursor-pointer text-primary" onClick={() => setShowPassword((prev) => !prev)}>
                   {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
                 </div>
 
@@ -185,14 +185,14 @@ const Login = ({ setIsImpersonateLoading }) => {
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="rounded-lg accent-purple-700 border-gray-300 text-white shadow-sm focus:ring-purple-500"
+                      className="rounded-lg accent-primary border-gray-300 text-white shadow-sm focus:ring-primary"
                     />
                     <span className="ml-2 text-sm text-gray-700">Remember me</span>
                   </label>
                 </div>
 
                 {/* Forgot Password */}
-                <Link to="/forgot-password/" className="text-sm text-gray-600 hover:text-violet-700">
+                <Link to="/forgot-password/" className="text-sm text-gray-600 hover:text-primary">
                   Forgot your password?
                 </Link>
               </div>
@@ -201,7 +201,7 @@ const Login = ({ setIsImpersonateLoading }) => {
                 <button
                   disabled={!isValid || isLoading || isImpersonateLoading}
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-800 disabled:cursor-not-allowed bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2 disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:bg-bg-primary active:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                   {(isLoading || isImpersonateLoading) && (
                     <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

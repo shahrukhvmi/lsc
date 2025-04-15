@@ -9,8 +9,7 @@ import NextButton from "../NextBtn/NextButton";
 import PrevButton from "../PrevBtn/PrevButton";
 import { FaCheck } from "react-icons/fa";
 
-const Stepthree = ({ setHideSidebar }) => {
-  setHideSidebar(false);
+const Stepthree = () => {
   useEffect(() => {
     window.scrollTo({
       top: 0,

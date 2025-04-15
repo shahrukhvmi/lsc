@@ -9,8 +9,7 @@ import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 
-const Stepfour = ({ setHideSidebar }) => {
-  setHideSidebar(false);
+const Stepfour = () => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -121,7 +120,7 @@ const Stepfour = ({ setHideSidebar }) => {
               <button
                 type="button"
                 onClick={() => dispatch(prevStep())}
-                className="bg-violet-700 rounded-md px-4 py-2 shadow-md text-white"
+                className="bg-primary rounded-md px-4 py-2 shadow-md text-white"
               >
                 <span className="flex items-center text-base">
                   <FaArrowLeft className="mr-1" /> Back
@@ -132,7 +131,7 @@ const Stepfour = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 disabled={!isValid} // Disable button until form is valid
-                className={`bg-violet-700 border-gray-200 rounded-md px-4 py-2 shadow-md text-white ${!isValid ? "opacity-50 cursor-not-allowed" : ""
+                className={`bg-primary border-gray-200 rounded-md px-4 py-2 shadow-md text-white ${!isValid ? "opacity-50 cursor-not-allowed" : ""
                   }`}
               >
                 <span className="flex items-center text-base">
@@ -154,7 +153,7 @@ const Stepfour = ({ setHideSidebar }) => {
                 {/* Back Button */}
                 <button
                   onClick={() => dispatch(prevStep())}
-                  className="flex flex-col items-center justify-center text-white rounded-md bg-violet-700 p-3"
+                  className="flex flex-col items-center justify-center text-white rounded-md bg-primary p-3"
                 >
                   <span className="text-md font-semibold px-6">Back</span>
                 </button>
@@ -165,8 +164,8 @@ const Stepfour = ({ setHideSidebar }) => {
                   // onClick={() => dispatch(nextStep())}
                   disabled={!isValid || loader}
                   className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
+                    ? "disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary text-white rounded-md"
+                    : "text-white rounded-md bg-primary"
                     }`}
                 >
                   {loader ? (

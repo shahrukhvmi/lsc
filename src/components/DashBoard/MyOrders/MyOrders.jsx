@@ -93,7 +93,7 @@ const MyOrders = () => {
             <select
               value={status}
               onChange={(e) => handleStatusChange(e.target.value)}
-              className={`text-sm rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 px-4 py-2 appearance-none pr-8 transition ease-in-out duration-200 ${getStatusClasses(
+              className={`text-sm rounded-lg border border-gray-300 focus:ring-primary focus:border-primary px-4 py-2 appearance-none pr-8 transition ease-in-out duration-200 ${getStatusClasses(
                 status
               )}`}
             >
@@ -113,11 +113,11 @@ const MyOrders = () => {
         </div>
       </div>
 
-      <div class="my-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-6">
+      <div class="my-3 bg-blue-50 border-l-4 border-primary text-primary p-4 mb-6">
         <div class="flex items-start">
           <div class="flex">
             <span>
-              <svg class="w-6 h-6 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-6 h-6 text-primary mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -187,7 +187,7 @@ const MyOrders = () => {
                 <tr key={order.order_id} className="border-b [&>td]:px-3 [&>td]:py-3 [&>td]:whitespace-nowrap">
                   <td>{order.order_id}</td>
                   <td>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{order.created_at}</span>
+                    <span className="bg-blue-100 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full">{order.created_at}</span>
                   </td>
                   <td>
                     {Array.from(new Set(order.items.map((item) => item.product))).map((uniqueProduct, index) => (

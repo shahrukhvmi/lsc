@@ -17,12 +17,12 @@ import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
 import { useLocation } from "react-router-dom";
 
-const Stepone = ({ setHideSidebar }) => {
-  setHideSidebar(false);
+const Stepone = () => {
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // You can change to "auto" for instant scrolling
+      behavior: "smooth",
     });
   }, []);
 
@@ -70,23 +70,9 @@ const Stepone = ({ setHideSidebar }) => {
     getValues,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onChange", // Validation mode
-    // defaultValues: {
-    //   firstName: prevStep1?.firstName || lastConsultation?.firstName || userInfo?.fname || "",
-    //   lastName: prevStep1?.lastName || userInfo?.lname || lastConsultation?.lastName || "",
-    //   phoneNumber: prevStep1?.phoneNo || userInfo?.phone || lastConsultation?.phoneNo || "",
-    //   gender: prevStep1?.gender || userInfo?.gender || lastConsultation?.gender || "",
-    //   dateOfBirth: prevStep1?.dob || userInfo?.dob || lastConsultation?.dob || null,
-    //   breastFeeding: prevStep1?.pregnancy || lastConsultation?.pregnancy || "",
-    //   streetAddress: prevStep1?.addressone || lastConsultation?.address?.addressone || "",
-    //   postCode: prevStep1?.postalcode || lastConsultation?.address?.postalcode || "",
-    //   state: prevStep1?.state || lastConsultation?.address?.state || "",
-    //   city: prevStep1?.city || lastConsultation?.address?.city || "",
-    //   ethnicity: prevStep1?.ethnicity || lastConsultation?.ethnicity || "",
-    // },
+    mode: "onChange",
   });
 
-  // Watch the values of gender and breastFeeding
   const gender = watch("gender");
   const selectedEthnicity = watch("ethnicity");
   const breastFeeding = watch("breastFeeding");
@@ -100,7 +86,7 @@ const Stepone = ({ setHideSidebar }) => {
     if (lastConsultation || prevStep1 || userInfo) {
       setZipCode(prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
       setValue("postCode", prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
-      setValue("firstName",  prevStep1?.firstName || lastConsultation?.firstName || "" || userInfo?.fname);
+      setValue("firstName", prevStep1?.firstName || lastConsultation?.firstName || "" || userInfo?.fname);
       setValue("lastName", lastConsultation?.lastName || prevStep1?.lastName || "" || userInfo?.lname);
       setValue("phoneNumber", lastConsultation?.phoneNo || prevStep1?.phoneNo || "" || userInfo?.phone);
       setValue("gender", lastConsultation?.gender || prevStep1?.gender || "" || userInfo?.gender);
@@ -225,34 +211,41 @@ const Stepone = ({ setHideSidebar }) => {
       ethnicity: data.ethnicity,
       universal_note: "",
     };
-    try {
-      const response = await postSteps({
-        patientInfo: patientInfo,
-        pid: getPid,
-        reorder_concent: reorder_concent ? reorder_concent.toString() : null
-      }).unwrap();
-      console.log(response, "response");
-      if (response?.status === true) {
-        dispatch(setStep1(response?.lastConsultation?.fields?.patientInfo));
 
-        // toast.success(response?.message);
-        dispatch(nextStep());
-        localStorage.removeItem("previous_id");
-      } else {
-        console.log(isError, "isError");
-        toast.error("Invalid login response");
-      }
-    } catch (err) {
-      const errors = err?.data?.errors;
-      if (errors && typeof errors === "object") {
-        Object.keys(errors).forEach((key) => {
-          const errorMessage = errors[key];
-          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
-        });
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
-    }
+    dispatch(setStep1(patientInfo));
+    localStorage.setItem("reorder_concent", reorder_concent);
+    localStorage.setItem("pid", getPid)
+
+    dispatch(nextStep());
+    localStorage.removeItem("previous_id");
+
+    // try {
+    //   const response = await postSteps({
+    //     patientInfo: patientInfo,
+    //     pid: getPid,
+    //     reorder_concent: reorder_concent ? reorder_concent.toString() : null
+    //   }).unwrap();
+    //   console.log(response, "response");
+    //   if (response?.status === true) {
+    //     dispatch(setStep1(response?.lastConsultation?.fields?.patientInfo));
+
+    //     dispatch(nextStep());
+    //     localStorage.removeItem("previous_id");
+    //   } else {
+    //     console.log(isError, "isError");
+    //     toast.error("Invalid login response");
+    //   }
+    // } catch (err) {
+    //   const errors = err?.data?.errors;
+    //   if (errors && typeof errors === "object") {
+    //     Object.keys(errors).forEach((key) => {
+    //       const errorMessage = errors[key];
+    //       Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
+    //     });
+    //   } else {
+    //     toast.error("An unexpected error occurred.");
+    //   }
+    // }
   };
 
   // Date Check?????????????????????????????????????????/
@@ -371,64 +364,112 @@ const Stepone = ({ setHideSidebar }) => {
   }, [gender]);
   return (
     <div className="pb-20 sm:pb-0">
-      <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
-        Step 1: <span className="font-bold">Patient Information</span>
-      </h1>
+      <div className="text-center">
+        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+          {/* Step 1: <span className="font-bold">Patient Information</span> */}
+        </h1>
 
-      <p className="text-2xl text-gray-800 mb-3 pb-2 font pt-5 lg:pt-5">Personal Information</p>
+        <p className="text-2xl text-gray-800 mb-3 pb-2 semibold-font">Personal Information</p>
+      </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3 pe-0 md:pe-40">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3 pe-0">
         {/* First Name & Last Name */}
         <div className="flex gap-4">
-          <TextField
-            label="First Name"
-            fullWidth
-            sx={textFieldStyles}
-            variant="standard"
-            value={watch("firstName") || ""}
-            {...register("firstName", { required: "First name is required" })}
-            error={!!errors.firstName}
-            helperText={errors.firstName?.message}
-            InputLabelProps={{
-              shrink: true,
-              sx: {
-                fontSize: "20px", // same size always
-                transform: "translate(0, 1.5px) scale(1)", // prevent shrink scaling
-              },
-            }}
-            InputProps={{
-              sx: {
-                fontSize: "16px", // input text size to match label
-              },
-            }}
-          />
-          <TextField
-            label="Last Name"
-            variant="standard"
-            value={watch("lastName") || ""}
-            fullWidth
-            sx={textFieldStyles}
-            {...register("lastName", { required: "Last name is required" })}
-            error={!!errors.lastName}
-            helperText={errors.lastName?.message}
-            InputLabelProps={{
-              shrink: true,
-              sx: {
-                fontSize: "20px", // same size always
-                transform: "translate(0, 1.5px) scale(1)", // prevent shrink scaling
-              },
-            }}
-            InputProps={{
-              sx: {
-                fontSize: "16px", // input text size to match label
-              },
-            }}
-          />
+          {/* First Name */}
+          <div className="flex flex-col w-1/2">
+            <InputLabel
+              htmlFor="first-name"
+              className="mb-1 font-medium text-sm text-"
+            >
+              First Name <span className="text-red-600">*</span>
+            </InputLabel>
+            <TextField
+              id="first-name"
+              fullWidth
+              variant="outlined"
+              value={watch("firstName") || ""}
+              {...register("firstName", { required: "First name is required" })}
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
+              sx={{
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: 0,
+                },
+                fontSize: "16px",
+              }}
+            />
+          </div>
+
+          {/* Last Name */}
+          <div className="flex flex-col w-1/2">
+            <InputLabel
+              htmlFor="last-name"
+              className="mb-1 font-medium text-sm text-gray-700"
+            >
+              Last Name <span className="text-red-600">*</span>
+            </InputLabel>
+            <TextField
+              id="last-name"
+              fullWidth
+              variant="outlined"
+              value={watch("lastName") || ""}
+              {...register("lastName", { required: "Last name is required" })}
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
+              sx={{
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: 0,
+                },
+                fontSize: "16px",
+              }}
+            />
+          </div>
         </div>
+
         <div className="mb-3 sm:mb-0">
           <p className="text-xs text-gray-500 font-medium">Please enter your first and last name exactly as it appears on your ID.</p>
         </div>
 
+
+
+        <div>
+          <p className="font-medium text-md text-gray-700 mb-2">What is your date of birth?*</p>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              rules={{ required: "Date of birth is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  label=" "
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date) => {
+                    handleDateChange(date);
+                    field.onChange(date);
+                  }}
+                  maxDate={today}
+                  // sx={{ textFieldStyles, marginTop: "0px" }}
+
+                  sx={{
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderRadius: 0,
+                    },
+                    fontSize: "16px",
+                    textFieldStyles, marginTop: "0px" 
+                  }}
+                  slotProps={{
+                    textField: {
+                      variant: "outlined",
+                      fullWidth: true,
+                      error: !!dobError || !!errors.dateOfBirth,
+                      helperText: dobError || errors.dateOfBirth?.message,
+                    },
+                  }}
+                />
+              )}
+            />
+          </LocalizationProvider>
+        </div>
         {/* Phone Number */}
 
         <Controller
@@ -444,7 +485,7 @@ const Stepone = ({ setHideSidebar }) => {
               <PhoneInput
                 country="gb"
                 placeholder="Enter your number"
-                inputStyle={{ width: "100%" }} // Always 100% of wrapper
+                inputStyle={{ width: "100%", height: "50px" }} // Always 100% of wrapper
                 {...field}
               />
             </div>
@@ -455,64 +496,6 @@ const Stepone = ({ setHideSidebar }) => {
             {errors.phoneNumber.message}
           </label>
         )}
-
-        {/* Gender Selection */}
-        {/* <div className="sm:flex justify-between">
-          <div className="">
-            <p className="reg-font text-[#1C1C29]  my-2 text-md">
-              What is your gender?*
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <label
-              className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${gender === "female"
-                ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                : "bg-white"
-                }`}
-            >
-              <input
-                type="radio"
-                value="female"
-                {...register("gender", {
-                  required: "",
-                })}
-                className="hidden"
-              />
-              <span>Female</span>
-              {gender === "female" && (
-                <span>
-                  <FaCheck className="ms-2" size={15} />
-                </span>
-              )}
-            </label>
-
-            <label
-              className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer  ${gender === "male"
-                ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                : "bg-white"
-                }`}
-            >
-              <input
-                type="radio"
-                value="male"
-                {...register("gender", {
-                  required: "",
-                })}
-                className="hidden"
-              />
-              <span>Male</span>
-              {gender === "male" && (
-                <span>
-                  <FaCheck className="ms-2" size={15} />
-                </span>
-              )}
-            </label>
-          </div>
-
-          {errors.gender && (
-            <p className="text-red-500">{errors.gender.message}</p>
-          )}
-        </div> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-2 items-start">
           {/* Gender Selection */}
           <div className="my-4 sm:m-0">
@@ -611,36 +594,7 @@ const Stepone = ({ setHideSidebar }) => {
               </div>
             )}
           </div>
-          <div>
-            <p className="font-medium text-md text-gray-700 mb-2">What is your date of birth?*</p>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Controller
-                name="dateOfBirth"
-                control={control}
-                rules={{ required: "Date of birth is required" }}
-                render={({ field }) => (
-                  <DatePicker
-                    label=" "
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => {
-                      handleDateChange(date);
-                      field.onChange(date);
-                    }}
-                    maxDate={today}
-                    sx={{ textFieldStyles, marginTop: "0px" }}
-                    slotProps={{
-                      textField: {
-                        variant: "outlined",
-                        fullWidth: true,
-                        error: !!dobError || !!errors.dateOfBirth,
-                        helperText: dobError || errors.dateOfBirth?.message,
-                      },
-                    }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-          </div>
+
         </div>
         <div className="hidden sm:block">
           {gender === "female" && (
@@ -708,32 +662,6 @@ const Stepone = ({ setHideSidebar }) => {
           )}
         </div>
 
-        {/* Date of Birth */}
-        {/* <div>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Controller
-              name="dateOfBirth"
-              control={control}
-              rules={{ required: "Date of birth is required" }}
-              render={({ field }) => (
-                <DatePicker
-                  label="What is your date of birth?"
-                  value={field.value ? dayjs(field.value) : null} // Convert ISO string to dayjs object
-                  onChange={(date) => handleDateChange(date)}
-                  maxDate={today}
-                  slotProps={{
-                    textField: {
-                      variant: "standard",
-                      fullWidth: true,
-                      error: !!dobError || !!errors.dateOfBirth,
-                      helperText: dobError || errors.dateOfBirth?.message,
-                    },
-                  }}
-                />
-              )}
-            />
-          </LocalizationProvider>
-        </div> */}
 
         <div className=" mt-3">
           <h6 className="font-bold text-xl text-black">Residential Address </h6>
@@ -763,7 +691,7 @@ const Stepone = ({ setHideSidebar }) => {
                       type="button"
                       onClick={handleSearch}
                       disabled={btnZipCode}
-                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
+                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-primary hover:bg-primary transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
                     >
                       <FaSearch className={`text-white`} />
                       <span className="mr-2 text-sm">{isLoading ? "SEARCH..." : "SEARCH"}</span>
@@ -777,9 +705,10 @@ const Stepone = ({ setHideSidebar }) => {
           <div className="mt-3 sm:mt-0">
             {!error && searchClicked && addressOptions.length > 0 && (
               <div className="">
-                <FormControl fullWidth variant="standard" error={!!errors.addressSelect} sx={selectStyles}>
+                <FormControl fullWidth variant="outlined" error={!!errors.addressSelect} sx={selectStyles}>
                   <InputLabel>Select Autofill</InputLabel>
                   <Select
+                    variant="standard"
                     {...register("addressSelect", {
                       required: "Please select an address",
                     })} // Validation for Select
@@ -807,7 +736,7 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <TextField
             label="Address Line 1"
-            variant="standard"
+            variant="outlined"
             value={watch("streetAddress") || ""}
             fullWidth
             sx={textFieldStyles}
@@ -819,7 +748,7 @@ const Stepone = ({ setHideSidebar }) => {
           />
           <TextField
             label="Address Line 2"
-            variant="standard"
+            variant="outlined"
             fullWidth
             sx={textFieldStyles}
             value={watch("streetAddress2") || ""}
@@ -831,7 +760,7 @@ const Stepone = ({ setHideSidebar }) => {
           <TextField
             label="City"
             value={watch("city") || ""}
-            variant="standard"
+            variant="outlined"
             fullWidth
             sx={textFieldStyles}
             {...register("city", { required: "City is required" })}
@@ -841,7 +770,7 @@ const Stepone = ({ setHideSidebar }) => {
           <TextField
             value={watch("state") || ""}
             label="State / Province / Region"
-            variant="standard"
+            variant="outlined"
             fullWidth
             sx={textFieldStyles}
             {...register("state")}
@@ -873,7 +802,7 @@ const Stepone = ({ setHideSidebar }) => {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value ? "bg-[#6d28d9] text-white" : "bg-[#e5e7eb] text-gray-700"
+                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value ? "bg-primary text-white" : "bg-[#e5e7eb] text-gray-700"
                   }`}
               >
                 <input
@@ -900,7 +829,7 @@ const Stepone = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isValid || !watch("ethnicity") || loader || error} // Check if ethnicity is filled
                 className={`rounded-md px-4 py-2 shadow-md text-white ${isValid && watch("ethnicity") && !loader
-                  ? "bg-violet-700 hover:bg-[#3a54a0] cursor-pointer"
+                  ? "bg-primary hover:bg-[#3a54a0] cursor-pointer"
                   : "bg-gray-400 cursor-not-allowed"
                   }`}
               >
@@ -929,8 +858,8 @@ const Stepone = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError}
                 className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
+                  ? "disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary text-white rounded-md"
+                  : "text-white rounded-md bg-primary"
                   }`}
               >
                 {loader ? (

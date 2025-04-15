@@ -49,7 +49,7 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
   };
 
   const termsData = [
-    "You consent for your medical information to be assessed by the clinical team at Mayfair Weight Loss Clinic and its pharmacy and to be prescribed medication.",
+    "You consent for your medical information to be assessed by the clinical team at London slimming clinic and its pharmacy and to be prescribed medication.",
     "You consent to an age and ID check when placing your first order.",
     "You will answer all questions honestly and accurately, and understand that it is an offence to provide false information.",
     "You have capacity to understand all about the condition and medication information we have provided and that you give fully informed consent to the treatment option provided.",
@@ -170,7 +170,7 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
               />
               <div
                 className={`mt-1 w-5 h-5 border-2 rounded-full ${
-                  initVal.checked ? "bg-violet-600 border-violet-600 p-1" : "bg-white border-gray-400"
+                  initVal.checked ? "bg-primary border-primary p-1" : "bg-white border-gray-400"
                 } transition duration-300`}
               >
                 {initVal.checked && (

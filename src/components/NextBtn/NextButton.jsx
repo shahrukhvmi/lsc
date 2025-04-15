@@ -11,7 +11,7 @@ const NextButton = ({ disabled, label, loading, onClick }) => {
                 className={`text-white px-9 py-2 rounded-md font-medium transition-all duration-150 ease-in
                     ${disabled || loading
                         ? "disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                        : "bg-violet-700 hover:bg-violet-600 cursor-pointer"
+                        : "bg-secondary hover:bg-secondary cursor-pointer"
                     }`}
             >
                 {loading ? (

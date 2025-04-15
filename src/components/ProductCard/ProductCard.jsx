@@ -177,7 +177,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
 
         {/* Price Ribbon */}
         {price && (
-          <div className="absolute -right-8 top-7 bg-blue-500 text-white text-xs px-[30px] py-1 rounded-tr rotate-45 z-20 thin-font">
+          <div className="absolute -right-8 top-7 bg-primary text-white text-xs px-[30px] py-1 rounded-tr rotate-45 z-20 thin-font">
             From £{price}
           </div>
         )}
@@ -213,7 +213,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
               className={
                 status === false
                   ? "bg-[#897bba] text-white py-2 px-6 rounded-full text-sm text-center"
-                  : "bg-[#5b45a7] text-white font-medium py-2 px-6 rounded-full text-sm text-center hover:bg-white hover:text-violet-700 transition-colors duration-200"
+                  : "bg-primary text-white font-medium py-2 px-6 rounded-full text-sm text-center hover:bg-white hover:text-primary transition-colors duration-200"
               }
             >
               {buttonText}
