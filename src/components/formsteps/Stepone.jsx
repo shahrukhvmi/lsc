@@ -455,7 +455,7 @@ const Stepone = () => {
                       borderRadius: 0,
                     },
                     fontSize: "16px",
-                    textFieldStyles, marginTop: "0px" 
+                    textFieldStyles, marginTop: "0px"
                   }}
                   slotProps={{
                     textField: {
@@ -470,141 +470,64 @@ const Stepone = () => {
             />
           </LocalizationProvider>
         </div>
-        {/* Phone Number */}
 
-        <Controller
-          name="phoneNumber"
-          control={control}
-          value={watch("phoneNumber") || ""}
-          rules={{ required: "Phone number is required" }}
-          render={({ field }) => (
-            <div className="w-full sm:w-1/2">
-              <label htmlFor="" className="font-medium text-md text-gray-700 mb-2 block">
-                Phone Number
-              </label>
-              <PhoneInput
-                country="gb"
-                placeholder="Enter your number"
-                inputStyle={{ width: "100%", height: "50px" }} // Always 100% of wrapper
-                {...field}
+        <div className="w-full my-4">
+          <div className="flex flex-wrap justify-between gap-4">
+            <p className="font-medium text-md text-gray-700 my-auto">
+              What is your gender?<span className="text-red-600">*</span>
+            </p>
+
+            <label
+              className={`px-20 flex items-center gap-2  border-2  py-2 cursor-pointer transition-all duration-300
+    ${gender === "male"
+                  ? "bg-primary text-white shadow-sm border-2 border-primary"
+                  : "border-2 border-gray-300 bg-white text-gray-700"
+                }`}
+            >
+              <input
+                type="radio"
+                value="male"
+                {...register("gender", { required: "Gender is required" })}
+                className="hidden"
               />
-            </div>
-          )}
-        />
-        {errors.phoneNumber && (
-          <label htmlFor="" className="text-red-500 text-sm">
-            {errors.phoneNumber.message}
-          </label>
-        )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-2 items-start">
-          {/* Gender Selection */}
-          <div className="my-4 sm:m-0">
-            <p className="font-medium text-md text-gray-700 mb-2">What is your gender?*</p>
-            <div className="flex gap-4">
-              <label
-                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "male"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                  : "rounded-lg shadow-md cursor-pointer bg-white"
-                  }`}
-              >
-                <input type="radio" value="male" {...register("gender", { required: "Gender is required" })} className="hidden" />
-                <span>Male</span>
-                <FaCheck className={`ml-2 transition-opacity duration-300 ${gender === "male" ? "opacity-100" : "opacity-0"}`} />
-              </label>
+              <span className="font-extrabold">Male</span>
+              {/* {gender === "male" && <FaCheck className="ml-1 text-green-500" />} */}
+            </label>
 
-              <label
-                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "female"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                  : "rounded-lg shadow-md cursor-pointer bg-white"
-                  }`}
-              >
-                <input type="radio" value="female" {...register("gender", { required: "Gender is required" })} className="hidden" />
-                <span>Female</span>
-                <FaCheck className={`ml-2 transition-opacity duration-300 ${gender === "female" ? "opacity-100" : "opacity-0"}`} />
-              </label>
-            </div>
-            {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
-          </div>
-          {/* Conditional Breastfeeding Question */}
 
-          {/* Date of Birth */}
-          <div className="block sm:hidden">
-            {gender === "female" && (
-              <div className="mb-0 sm:mb-0">
-                <p className="font-medium text-md text-gray-700 sm:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
-                <div className="flex gap-4">
-                  <label
-                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
-                      }`}
-                  >
-                    <input
-                      type="radio"
-                      value="Yes"
-                      sx={textFieldStyles}
-                      {...register("breastFeeding", {
-                        required: "This field is required",
-                        validate: (value) => {
-                          if (value === "Yes") {
-                            setWarningMessage(
-                              `This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`
-                            );
-                          } else {
-                            setWarningMessage("");
-                          }
-                        },
-                      })}
-                      className="hidden"
-                    />
-                    <span>Yes</span>{" "}
-                    {breastFeeding === "Yes" && (
-                      <span>
-                        <FaCheck className="ms-2" size={15} />
-                      </span>
-                    )}
-                  </label>
-
-                  <label
-                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
-                      }`}
-                  >
-                    <input
-                      type="radio"
-                      value="No"
-                      sx={textFieldStyles}
-                      {...register("breastFeeding", {
-                        required: "This field is required",
-                      })}
-                      className="hidden"
-                    />
-                    <span>No</span>
-
-                    {breastFeeding === "No" && (
-                      <span>
-                        <FaCheck className="ms-2" size={15} />
-                      </span>
-                    )}
-                  </label>
-                </div>
-                <p className="text-red-500 mt-4 text-sm">{WarningMessage?.length > 0 && WarningMessage}</p>
-                {errors.breastFeeding && <p className="text-red-500 mt-2 text-sm">{errors.breastFeeding.message}</p>}
-              </div>
-            )}
+            <label
+              className={`flex items-center gap-2 px-20 border-2 py-2 cursor-pointer transition-all duration-300 
+        ${gender === "female"
+                   ? "bg-primary text-white shadow-sm border-2 border-primary"
+                  : "border-2 border-gray-300 bg-white text-gray-700"
+                }`}
+            >
+              <input
+                type="radio"
+                value="female"
+                {...register("gender", { required: "Gender is required" })}
+                className="hidden"
+              />
+              <span className="font-extrabold"> Female</span>
+              {/* {gender === "female" && <FaCheck className="ml-1 text-green-500" />} */}
+            </label>
           </div>
 
+          {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
         </div>
+
+
+
+
         <div className="hidden sm:block">
           {gender === "female" && (
             <div className="mb-2">
               <p className="font-medium text-md text-gray-700 sm:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
               <div className="flex gap-4">
                 <label
-                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                    : "bg-white"
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border cursor-pointer ${breastFeeding === "Yes"
+                    ? "bg-primary text-white shadow-sm "
+                    : "border-2 border-gray-300 bg-white text-gray-700"
                     }`}
                 >
                   <input
@@ -625,18 +548,18 @@ const Stepone = () => {
                     })}
                     className="hidden"
                   />
-                  <span>Yes</span>{" "}
-                  {breastFeeding === "Yes" && (
+                  <span className="font-semibold">Yes</span>{" "}
+                  {/* {breastFeeding === "Yes" && (
                     <span>
                       <FaCheck className="ms-2" size={15} />
                     </span>
-                  )}
+                  )} */}
                 </label>
 
                 <label
-                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                    : "bg-white"
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border cursor-pointer ${breastFeeding === "No"
+                    ? "bg-primary text-white shadow-sm "
+                    : "border-2 border-gray-300 bg-white text-gray-700"
                     }`}
                 >
                   <input
@@ -647,13 +570,13 @@ const Stepone = () => {
                     })}
                     className="hidden"
                   />
-                  <span>No</span>
+                  <span className="font-semibold">No</span>
 
-                  {breastFeeding === "No" && (
+                  {/* {breastFeeding === "No" && (
                     <span>
                       <FaCheck className="ms-2" size={15} />
                     </span>
-                  )}
+                  )} */}
                 </label>
               </div>
               <p className="text-red-500 mt-4 text-sm">{WarningMessage?.length > 0 && WarningMessage}</p>
@@ -661,6 +584,32 @@ const Stepone = () => {
             </div>
           )}
         </div>
+        {/* Phone Number */}
+        <Controller
+          name="phoneNumber"
+          control={control}
+          value={watch("phoneNumber") || ""}
+          rules={{ required: "Phone number is required" }}
+          render={({ field }) => (
+            <div className="w-full">
+              <label htmlFor="" className="font-medium text-md text-gray-700 mb-2 block">
+                Phone Number
+              </label>
+              <PhoneInput
+                country="gb"
+                placeholder="Enter your number"
+                inputStyle={{ width: "100%", height: "50px" }} // Always 100% of wrapper
+                {...field}
+              />
+            </div>
+          )}
+        />
+        {errors.phoneNumber && (
+          <label htmlFor="" className="text-red-500 text-sm">
+            {errors.phoneNumber.message}
+          </label>
+        )}
+
 
 
         <div className=" mt-3">
@@ -680,8 +629,8 @@ const Stepone = () => {
             helperText={errors.postCode?.message} // Shows error message
             fullWidth
             onChange={(e) => {
-              setZipCode(e.target.value); // Update zipCode state
-              setSearchClicked(false); // Reset search clicked
+              setZipCode(e.target.value);
+              setSearchClicked(false);
             }}
             InputProps={{
               endAdornment: (
@@ -691,7 +640,7 @@ const Stepone = () => {
                       type="button"
                       onClick={handleSearch}
                       disabled={btnZipCode}
-                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-primary hover:bg-primary transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
+                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-primary hover:bg-primary transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1"
                     >
                       <FaSearch className={`text-white`} />
                       <span className="mr-2 text-sm">{isLoading ? "SEARCH..." : "SEARCH"}</span>
@@ -734,48 +683,109 @@ const Stepone = () => {
 
         {/* Address Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <TextField
-            label="Address Line 1"
-            variant="outlined"
-            value={watch("streetAddress") || ""}
-            fullWidth
-            sx={textFieldStyles}
-            {...register("streetAddress", {
-              required: "Address Line 1 is required",
-            })}
-            error={!!errors.streetAddress}
-            helperText={errors.streetAddress?.message}
-          />
-          <TextField
-            label="Address Line 2"
-            variant="outlined"
-            fullWidth
-            sx={textFieldStyles}
-            value={watch("streetAddress2") || ""}
-            {...register("streetAddress2")}
-          />
+          <div>
+            <label htmlFor="streetAddress" className="block text-sm font-medium text-gray-700 mb-1">
+              Address Line 1<span className="text-red-500">*</span>
+            </label>
+            <TextField
+              id="streetAddress"
+              variant="outlined"
+              fullWidth
+              placeholder="Enter address line 1"
+              value={watch("streetAddress") || ""}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0, // 👈 removes border radius
+                },
+                ...textFieldStyles, // apply your custom styles
+              }}
+              {...register("streetAddress", {
+                required: "Address Line 1 is required",
+              })}
+              error={!!errors.streetAddress}
+              helperText={errors.streetAddress?.message}
+              InputLabelProps={{ shrink: false }}
+              label="" // Hide built-in label
+            />
+          </div>
+
+          <div>
+            <label htmlFor="streetAddress2" className="block text-sm font-medium text-gray-700 mb-1">
+              Address Line 2
+            </label>
+            <TextField
+              id="streetAddress2"
+              variant="outlined"
+              fullWidth
+              placeholder="Enter address line 2"
+              value={watch("streetAddress2") || ""}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0, // 👈 removes border radius
+                },
+                ...textFieldStyles, // apply your custom styles
+              }}
+              {...register("streetAddress2")}
+              InputLabelProps={{ shrink: false }}
+              label="" // Hide built-in label
+            />
+          </div>
         </div>
 
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <TextField
-            label="City"
-            value={watch("city") || ""}
-            variant="outlined"
-            fullWidth
-            sx={textFieldStyles}
-            {...register("city", { required: "City is required" })}
-            error={!!errors.city}
-            helperText={errors.city?.message}
-          />
-          <TextField
-            value={watch("state") || ""}
-            label="State / Province / Region"
-            variant="outlined"
-            fullWidth
-            sx={textFieldStyles}
-            {...register("state")}
-          />
+          {/* City */}
+          <div>
+            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+              City<span className="text-red-500">*</span>
+            </label>
+            <TextField
+              id="city"
+              placeholder="Enter city"
+              variant="outlined"
+              fullWidth
+              value={watch("city") || ""}
+
+              {...register("city", { required: "City is required" })}
+              error={!!errors.city}
+              helperText={errors.city?.message}
+              label="" // Hide built-in label
+              InputLabelProps={{ shrink: false }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0, // 👈 removes border radius
+                },
+                ...textFieldStyles, // apply your custom styles
+              }}
+            />
+          </div>
+
+          {/* State */}
+          <div>
+            <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">
+              State / Province / Region
+            </label>
+            <TextField
+              id="state"
+              placeholder="Enter state"
+              variant="outlined"
+              fullWidth
+              value={watch("state") || ""}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0, // 👈 removes border radius
+                },
+                ...textFieldStyles, // apply your custom styles
+              }}
+              {...register("state")}
+              label="" // Hide built-in label
+              InputLabelProps={{ shrink: false }}
+              error={!!errors.state}
+              helperText={errors.state?.message}
+            />
+          </div>
         </div>
+
 
         {/* Ethnicity Selection */}
 
@@ -802,7 +812,7 @@ const Stepone = () => {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value ? "bg-primary text-white" : "bg-[#e5e7eb] text-gray-700"
+                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 border-primary  cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value ? "bg-primary text-white" : "bg-white text-gray-700 border-2"
                   }`}
               >
                 <input

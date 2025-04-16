@@ -70,80 +70,80 @@ const App = () => {
 
       {/* Main Application Content */}
       {/* {isLoaded && ( */}
-      <AuthProvider>
-        <Suspense fallback={<div></div>}>
-          <Routes>
-            {/* Auth Routes */}
-            <Route
-              path="/"
-              element={
-                <PublicRoute
-                  element={
-                    <MainLayout>
-                      <Welcome />
-                    </MainLayout>
-                  }
-                />
-              }
-            />
-            <Route
-              path="/register/"
-              element={
-                <PublicRoute
-                  element={
-                    <MainLayout>
-                      <Welcome />
-                    </MainLayout>
-                  }
-                />
-              }
-            />
-            <Route
-              path="/forgot-password/"
-              element={
-                <PublicRoute
-                  element={
-                    <MainLayout>
-                      <ForgotPassword />
-                    </MainLayout>
-                  }
-                />
-              }
-            />
-            <Route
-              path="/change-forgot-password/"
-              element={
-                <PublicRoute
-                  element={
-                    <MainLayout>
-                      <ChangeForgotPassword />
-                    </MainLayout>
-                  }
-                />
-              }
-            />
+      {/* <AuthProvider> */}
+      <Suspense fallback={<div></div>}>
+        <Routes>
+          {/* Auth Routes */}
+          <Route
+            path="/"
+            element={
+              <PublicRoute
+                element={
+                  <MainLayout>
+                    <Welcome />
+                  </MainLayout>
+                }
+              />
+            }
+          />
+          <Route
+            path="/register/"
+            element={
+              <PublicRoute
+                element={
+                  <MainLayout>
+                    <Welcome />
+                  </MainLayout>
+                }
+              />
+            }
+          />
+          <Route
+            path="/forgot-password/"
+            element={
+              <PublicRoute
+                element={
+                  <MainLayout>
+                    <ForgotPassword />
+                  </MainLayout>
+                }
+              />
+            }
+          />
+          <Route
+            path="/change-forgot-password/"
+            element={
+              <PublicRoute
+                element={
+                  <MainLayout>
+                    <ChangeForgotPassword />
+                  </MainLayout>
+                }
+              />
+            }
+          />
 
-            {/* Dashboard Routes */}
-            <Route path="/dashboard/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAccount />} />} />} />
+          {/* Dashboard Routes */}
+          {/* <Route path="/consultation-form/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAccount />} />} />} />
             <Route path="/orders/" element={<ProtectedRoute element={<DashBoardLayout element={<MyOrders />} />} />} />
             <Route path="/orders/:id/" element={<OrderDetails />} />
 
             <Route path="/profile/" element={<ProtectedRoute element={<DashBoardLayout element={<MyProfile />} />} />} />
             <Route path="/address/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAddress />} />} />} />
-            <Route path="/change-password/" element={<ProtectedRoute element={<DashBoardLayout element={<ChangePassword />} />} />} />
-            <Route
-              path="/consultation-form/"
-              element={
-                <ProtectedRoute
-                  element={
-                    <StepsLayout>
-                      <Steps />
-                    </StepsLayout>
-                  }
-                />
-              }
+            <Route path="/change-password/" element={<ProtectedRoute element={<DashBoardLayout element={<ChangePassword />} />} />} /> */}
+          <Route
+            path="/consultation-form/"
+            element={
+
+              <StepsLayout>
+                <Steps />
+              </StepsLayout>
+            }
+
+        
+              
             />
-            {/* <Route
+          {/* <Route
                 path="/thank-you"
                 element={
                   <PublicRoute
@@ -169,15 +169,15 @@ const App = () => {
                 }
               /> */}
 
-            <Route path="/thank-you/" element={<ThankYou />} />
-            <Route path="/payment-failed/" element={<PaymentFailed />} />
+          {/* <Route path="/thank-you/" element={<ThankYou />} />
+            <Route path="/payment-failed/" element={<PaymentFailed />} /> */}
 
-            {/* Fallback Route */}
-            <Route path="*" element={<Navigate to="/dashboard/" />} />
-          </Routes>
-          <Toaster />
-        </Suspense>
-      </AuthProvider>
+          {/* Fallback Route */}
+          <Route path="*" element={<Navigate to="/consultation-form/" />} />
+        </Routes>
+        <Toaster />
+      </Suspense>
+      {/* </AuthProvider> */}
     </div>
   );
 };

@@ -27,7 +27,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       <nav className="space-y-2">
         <NavLink
-          to="/dashboard/"
+          to="/consultation-form/"
           className={({ isActive }) =>
             `flex items-center p-2 rounded-md tab-home ${isActive ? "bg-primary text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }

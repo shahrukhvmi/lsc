@@ -15,20 +15,20 @@ import Footer from "./Footer";
 import ApplicationLogo from "../config/ApplicationLogo";
 
 const Steps = () => {
-  const [hideSidebar, setHideSidebar] = useState(false);
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  // const [hideSidebar, setHideSidebar] = useState(false);
+  // const [searchParams] = useSearchParams();
+  // const navigate = useNavigate();
 
-  const paymentLoading = useSelector((state) => state.paymentLoader.loading);
+  // const paymentLoading = useSelector((state) => state.paymentLoader.loading);
 
-  const productId = searchParams.get("product_id");
+  // const productId = searchParams.get("product_id");
 
-  useEffect(() => {
-    if (!productId) {
-      // Redirect to home or product list if product_id is missing
-      navigate("/dashboard/", { replace: true });
-    }
-  }, [productId, navigate]);
+  // useEffect(() => {
+  //   if (!productId) {
+  //     // Redirect to home or product list if product_id is missing
+  //     navigate("/consultation-form/", { replace: true });
+  //   }
+  // }, [productId, navigate]);
 
   const currentStep = useSelector((state) => state.step?.currentStep);
 
@@ -55,14 +55,10 @@ const Steps = () => {
     }
   };
 
-  // Optional: loading fallback while checking
-  if (!productId) {
-    return null; // or show loader/spinner
-  }
 
   return (
     <>
-      <div className={`bg-gradient-to-r from-[#e0f5fc] via-[#F3F6F2] to-[#FFF7ED] ${paymentLoading ? "h-[100vh]" : ""}`}>
+      <div className={`bg-gradient-to-r from-[#e0f5fc] via-[#F3F6F2] to-[#FFF7ED] `}>
         <div className="consultation-form w-full max-w-[1366px] mx-auto flex flex-col lg:flex-row font-inter overflow-hidden min-h-screen justify-center items-center px-4 py-20">
           <div
             className={`right relative bg-white mx-3 md:mx-6 lg:mx-0 w-auto rounded-xl lg:w-[55%] lg:rounded-tr-xl rounded-bl-xl lg:rounded-bl-none rounded-br-xl`}

@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   const islogin = (token) => {
     localStorage.setItem("token", token);
     setIsAuthenticated(true);
-    navigate("/dashboard/");
+    navigate("/consultation-form/");
   };
   const impersonateEmailGet = localStorage.getItem("impersonate_email");
 

@@ -6,7 +6,7 @@ const PaymentFailed = () => {
   const Navigate = useNavigate();
 
   const handleGoBack = () => {
-    Navigate("/dashboard/");
+    Navigate("/consultation-form/");
 
     localStorage.removeItem("step2");
     localStorage.removeItem("cart");
