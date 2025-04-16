@@ -65,7 +65,7 @@ const Header = () => {
     localStorage.removeItem("previous_id");
   };
   const [openModal, setOpenModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(true); // toggle for login/register
+  const [activeTab, setActiveTab] = useState("login");
   const openModalLoginOrRegister = () => {
     console.log("open");
     setOpenModal(true);
@@ -75,9 +75,12 @@ const Header = () => {
     setOpenModal(false);
   };
 
-  const toggleForm = () => {
-    setIsLogin(!isLogin);
-  };
+  const tabClasses = (tab) =>
+    `px-4 py-2 font-medium text-sm border-b-2 ${
+      activeTab === tab
+        ? "border-blue-600 text-blue-600"
+        : "border-transparent text-gray-500 hover:text-blue-600 hover:border-blue-600"
+    }`
   return (
     <>
 
@@ -158,29 +161,19 @@ const Header = () => {
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">
-                  <div className="mb-4 text-sm text-center">
-                    {isLogin ? (
-                      <span>
-
-
-                        <button
-                          onClick={toggleForm}
-                          className="text-black hover:underline"
-                        >
-                          <HiOutlineSwitchHorizontal size={20} color="#1F9E8C" /> Register
-                        </button>
-                      </span>
-                    ) : (
-                      <span>
-                        <button
-                          onClick={toggleForm}
-                          className="text-blue-600 hover:underline"
-                        >
-
-                          <HiOutlineSwitchHorizontal size={20} color="#1F9E8C" /> Login
-                        </button>
-                      </span>
-                    )}
+                  <div className="flex border-b mb-4">
+                    <button
+                      className={tabClasses("login")}
+                      onClick={() => setActiveTab("login")}
+                    >
+                      Login
+                    </button>
+                    <button
+                      className={tabClasses("register")}
+                      onClick={() => setActiveTab("register")}
+                    >
+                      Register
+                    </button>
                   </div>
                 </h2>
                 <button
@@ -195,7 +188,7 @@ const Header = () => {
 
 
               {/* Form Area */}
-              {isLogin ? <Login /> : <Register />}
+              {activeTab === "login" ? <Login /> : <Register />}
             </div>
           </div>
         </>
