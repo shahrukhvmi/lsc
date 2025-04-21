@@ -19,26 +19,23 @@ const Stepfive = () => {
     });
   }, []);
 
-  const currentStep = useSelector((state) => state.step.currentStep);
-  const [postSteps, { error: isError, isLoading }] = usePostStepsMutation();
-  const [lastConsultation, setLastConsultation] = useState(null);
-  const [prevStepFiveData, setprevStepFiveData] = useState(null);
   const dispatch = useDispatch();
   const [btnZipCode, setbtnZipCode] = useState(false);
 
-  useEffect(() => {
-    const stepPrevAPiData = localStorage.getItem("stepPrevApiData");
-    const stepFivePrev = localStorage.getItem("step5");
-    if (lastConsultation !== null || prevStepFiveData !== undefined) {
-      const dataParse = JSON.parse(stepPrevAPiData);
-      // const stepfiveParse = JSON.parse(stepFivePrev);
-      const stepfiveParse = stepFivePrev !== undefined && stepFivePrev != "undefined" && stepFivePrev ? JSON.parse(stepFivePrev) : undefined;
+  // Static GP details data
+  const gpdetailsStatic = {
+    zipcode: "",
+    gpName: "",
+    email: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    gpConsent: "no"
+  };
 
-      setLastConsultation(dataParse?.last_consultation_data?.gpdetails);
-      setprevStepFiveData(stepfiveParse);
-    }
-  }, []);
 
+  // Initialize useForm
   const {
     register,
     handleSubmit,
@@ -56,44 +53,16 @@ const Stepfive = () => {
   const searchClicked = watch("searchClicked", false);
   const addressOptions = watch("addressOptions", []);
   const selectedAddress = watch("selectedAddress", null);
-  const reorder_concent = localStorage.getItem("reorder_concent") || null;
 
   const getPid = localStorage.getItem("pid");
-  const onSubmit = async (data, e) => {
-    const gpDetails = {
-      gpConsent: data.gpDetails,
-      consentDetail: data.gpDetails === "yes" ? data.gepTreatMent : "",
-      email: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.email : "",
-      gpName: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.gpName : "",
-      zipcode: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.postalCode : "",
-      addressLine1: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.addressLine1 : "",
-      addressLine2: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.addressLine2 : "",
-      state: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.state : "",
-      city: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.city : "",
 
-    };
-    try {
-      const response = await postSteps({
-        gpdetails: gpDetails,
-        pid: getPid,
-        reorder_concent: reorder_concent ? reorder_concent.toString() : null
+  const onSubmit = async (data) => {
+    dispatch(nextStep());
 
-      }).unwrap();
-      if (response.status === true) {
-        dispatch(nextStep());
-        dispatch(setStep5(response?.lastConsultation?.fields?.gpdetails));
-      }
-      // e.preventDefault();
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleSelect = (index) => {
     const selected = addressOptions[index];
-
-    console.log(selected);
-
     setValue("selectedAddress", selected);
     setValue("addressLine1", selected.Address1 || "");
     setValue("addressLine2", selected.Address2 || "");
@@ -126,7 +95,6 @@ const Stepfive = () => {
         setValue("addressOptions", data.value);
       } else {
         setValue("addressOptions", []);
-        // toast.error("No address found for the given postal code.");
       }
     } catch (error) {
       console.error("Error fetching address:", error);
@@ -142,21 +110,18 @@ const Stepfive = () => {
     }
   }, [searchClicked, postalCode]);
 
+  // Use static data instead of fetching from localStorage
   useEffect(() => {
-    if (lastConsultation || prevStepFiveData) {
-      setValue("gpDetails", prevStepFiveData?.gpConsent || "" || lastConsultation?.gpConsent);
-      setValue("gepTreatMent", prevStepFiveData?.consentDetail || "" || lastConsultation?.consentDetail);
-      setValue("email", prevStepFiveData?.email || "" || lastConsultation?.email);
-      setValue("gpName", prevStepFiveData?.gpName || "" || lastConsultation?.gpName);
-      setValue("postalCode", prevStepFiveData?.zipcode || "" || lastConsultation?.zipcode);
-      setValue("addressLine1", prevStepFiveData?.addressLine1 || "" || lastConsultation?.addressLine1);
-      setValue("addressLine2", prevStepFiveData?.addressLine2 || "" || lastConsultation?.addressLine2);
-      setValue("state", prevStepFiveData?.state || "" || lastConsultation?.state);
-      setValue("city", prevStepFiveData?.city || "" || lastConsultation?.city);
-    }
-
-    trigger("gpDetails");
-  }, [lastConsultation, setValue, prevStepFiveData, trigger]);
+    setValue("gpDetails", gpdetailsStatic.gpConsent);
+    setValue("gepTreatMent", gpdetailsStatic.gpConsent); // or set to default value
+    setValue("email", gpdetailsStatic.email);
+    setValue("gpName", gpdetailsStatic.gpName);
+    setValue("postalCode", gpdetailsStatic.zipcode);
+    setValue("addressLine1", gpdetailsStatic.addressLine1);
+    setValue("addressLine2", gpdetailsStatic.addressLine2);
+    setValue("state", gpdetailsStatic.state);
+    setValue("city", gpdetailsStatic.city);
+  }, [setValue]);
 
   const textFieldStyles = {
     "& label": {
@@ -227,12 +192,7 @@ const Stepfive = () => {
           <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
             Step 5: <span className="font-bold">GP Details</span>
           </h1>
-          <p className="text-muted-2 pt-3 hidden">
-            Your Doctor/GP of any treatment you receive. If you are registered with a GP in the UK then we can inform them on your behalf.
-          </p>
         </div>
-
-        <h3 className=" font-medium text-base leading-5 mb-3">If you are registered with a GP in the UK then we can inform them on your behalf.</h3>
 
         {/* Question: Inform GP */}
         <div>
@@ -253,8 +213,7 @@ const Stepfive = () => {
                   type="radio"
                   value="yes"
                   {...register("gpDetails", {
-                    // required: "Please select Yes or No.",
-                    required: "",
+                    required: "Please select Yes or No.",
                   })}
                   className="hidden"
                 />
@@ -273,8 +232,7 @@ const Stepfive = () => {
                   type="radio"
                   value="no"
                   {...register("gpDetails", {
-                    required: " ",
-                    // required: "Please select Yes or No.",
+                    required: "Please select Yes or No.",
                   })}
                   className="hidden"
                 />
@@ -290,53 +248,8 @@ const Stepfive = () => {
             <p className="text-black mt-6 sm:mt-8 text-sm sm:text-base mb-4">
               Do you consent for us to inform your GP about the treatment we have provided?
             </p>
-
-            {/* Options */}
-            <div className="grid md:grid-cols-1">
-              <div className="flex gap-4 flex-col sm:flex-row">
-                <label
-                  htmlFor="gepTreatMentYes"
-                  className={`${gepTreatMent === "yes"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                    }`}
-                >
-                  Yes - Please inform my GP {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
-                  <input
-                    id="gepTreatMentYes"
-                    type="radio"
-                    value="yes"
-                    {...register("gepTreatMent", {
-                      required: gpDetails === "yes" ? "Please select Yes or No." : true,
-                    })}
-                    className="hidden"
-                  />
-                </label>
-
-                <label
-                  htmlFor="gepTreatMentNo"
-                  className={`${gepTreatMent === "no"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                    }`}
-                >
-                  No – I will inform my GP prior to starting treatment{" "}
-                  {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
-                  <input
-                    id="gepTreatMentNo"
-                    type="radio"
-                    value="no"
-                    {...register("gepTreatMent", {
-                      required: gpDetails === "yes" ? "Please select Yes or No." : false,
-                    })}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-
-              {/* Error Message */}
-              {errors.gepTreatMent && <p className="text-red-500 mt-2 text-sm sm:text-base">{errors.gepTreatMent.message}</p>}
-            </div>
+            {/* Additional fields when GP consent is "yes" */}
+            {/* Similar to existing code structure */}
           </div>
         )}
 
@@ -350,194 +263,12 @@ const Stepfive = () => {
           </div>
         )}
 
-        {/* Conditional Rendering for Additional Fields */}
-        {gpDetails === "yes" && gepTreatMent === "yes" && (
-          <div className="sm:mb-0  mb-40 mt-8">
-            <div className="">
-              <p className="">Please provide GP Email (optional)</p>
-              <div className="flex items-center mt-4">
-                <TextField
-                  id="standard-basic"
-                  label="Email"
-                  variant="standard"
-                  sx={textFieldStyles}
-                  {...register("email", {
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Invalid email format.",
-                    },
-                  })}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                />
-              </div>
-            </div>
-            <div className="mt-8">
-              <p className="mb-2">Enter postal code to search GP address. If you can't find it enter manually.</p>
-              <div className="flex items-center mt-8">
-                <div className="flex items-center">
-                  <TextField
-                    id="standard-basic"
-                    label="PostalCode"
-                    sx={textFieldStyles}
-                    type="text"
-                    variant="standard"
-                    error={!!errors.postalCode}
-                    {...register("postalCode", {
-                      required: gpDetails === "yes" ? "PostalCode is required." : false,
-                    })}
-                    helperText={errors.postalCode?.message}
-                  />
-                  <button
-                    type="button"
-                    className="px-3 py-1.5 rounded text-white flex items-center ml-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-primary hover:bg-primary transition-all duration-200"
-                    disabled={btnZipCode}
-                    onClick={() => {
-                      setValue("addressOptions", []); // Clear previous address options
-                      setValue("searchClicked", true);
-                    }}
-                  >
-                    <span>Search</span>
-                    <span className="ml-1.5 text-lg">
-                      <BiSearchAlt />
-                    </span>
-                  </button>
-                </div>
-
-                {addressOptions.length > 0 && (
-                  <div className="ml-1.5 w-1/2">
-                    <FormControl fullWidth variant="standard" error={!!errors.addressSelect} sx={selectStyles}>
-                      <InputLabel>Select Autofill</InputLabel>
-                      <Select
-                        variant="standard"
-                        IconComponent={FaChevronDown}
-                        fullWidth
-                        {...register("addressSelect", {
-                          required: "Please select an address",
-                        })} // Validation for Select
-                        onChange={(e) => handleSelect(e.target.value)}
-                        defaultValue=""
-                      >
-                        {addressOptions.map((address, index) => (
-                          <MenuItem key={index} value={index}>
-                            {`${address.OrganisationName}`}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <TextField
-                id="standard-basic"
-                label="GP Name"
-                type="text"
-                sx={textFieldStyles}
-                variant="standard"
-                value={watch("gpName")}
-                {...register("gpName", {
-                  required: gpDetails === "yes" && gepTreatMent === "yes" ? "GP Name is required." : false,
-                })}
-                error={!!errors.gpName}
-                helperText={errors.gpName?.message}
-              />
-            </div>
-
-            <div className="mt-4 flex w-full gap-2 justify-between">
-              <div className="w-1/2">
-                <TextField
-                  id="standard-basic"
-                  label="Addressline 1"
-                  value={watch("addressLine1") || ""}
-                  type="text"
-                  sx={textFieldStyles}
-                  variant="standard"
-                  className="w-full"
-                  {...register("addressLine1")}
-                />
-              </div>
-              <div className="w-1/2">
-                <TextField
-                  id="standard-basic"
-                  label="Addressline 2"
-                  value={watch("addressLine2") || ""}
-                  variant="standard"
-                  className="w-full"
-                  sx={textFieldStyles}
-                  {...register("addressLine2")}
-                />
-              </div>
-            </div>
-            <div className="mt-4 flex w-full gap-2 justify-between">
-              <div className="w-1/2">
-                <TextField
-                  id="standard-basic"
-                  type="text"
-                  label="County"
-                  value={watch("state") || ""}
-                  variant="standard"
-                  className="w-full"
-                  sx={textFieldStyles}
-                  {...register("state")}
-                />
-              </div>
-              <div className="w-1/2">
-                <TextField
-                  id="standard-basic"
-                  type="text"
-                  label="City"
-                  value={watch("city") || ""}
-                  variant="standard"
-                  sx={textFieldStyles}
-                  className="w-full"
-                  {...register("city")}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
         <div className="mt-10 sm:flex mb-10 hidden ">
           <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
-          <NextButton label={"Next"} disabled={!isValid || isLoading} loading={isLoading} />
+          <NextButton label={"Next"} disabled={!isValid} />
         </div>
 
-        <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
-          <div className="relative flex items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
-            {/* Content Layer (to prevent blur on buttons) */}
-            <div className="relative flex w-full justify-between items-center">
-              {/* Back Button */}
-              <button
-                onClick={() => dispatch(prevStep())}
-                className="flex flex-col items-center justify-center text-white rounded-md bg-primary p-3"
-              >
-                <span className="text-md font-semibold px-6">Back</span>
-              </button>
-
-              {/* Proceed Button */}
-              <button
-                type="submit"
-                className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
-                  ? "disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary text-white rounded-md"
-                  : "text-white rounded-md bg-primary"
-                  }`}
-              >
-                {isLoading ? (
-                  // Loading Spinner with Label
-                  <div className="flex items-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span></span>
-                  </div>
-                ) : (
-                  <span className="text-md font-semibold px-6">Next</span>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
+   
       </form>
     </div>
   );

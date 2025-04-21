@@ -39,51 +39,56 @@ const Stepfour = () => {
   // Watch checkbox state dynamically
   const isChecked = watch("confirmation_question");
 
-  // Fetch Data from Local Storage
-  useEffect(() => {
-    const stepPrevData = localStorage.getItem("stepPrevApiData");
-    if (stepPrevData) {
-      const dataParse = JSON.parse(stepPrevData);
-      setGetQuestion(dataParse?.confirmation_question[0]?.qa); // Safe navigation
-    }
-    const checkPrevData = localStorage.getItem("step4");
-    if (checkPrevData) {
-      // const dataParse = JSON.parse(checkPrevData);
-      const dataParse = checkPrevData !== undefined && checkPrevData != "undefined" && checkPrevData ? JSON.parse(checkPrevData) : undefined;
+  // Replace stepPrevData with your provided medicalData
+  const medicalData = [
+    {
+      question: "Please confirm you have read and understand the below information related to the treatment prescribed: I confirm and understand that:",
+      qsummary: "Please confirm you have read and understand the below information related to the treatment prescribed: I confirm and understand that:",
+      has_checklist: true,
+      checklist: (
+        <ul>
+          <li>Treatments are sub-cutaneous injections and I feel comfortable administering this medication myself.</li>
+          <li>Treatments are prescription only medication and therefore you must inform your GP/doctor that you have been prescribed this and that you are taking it.</li>
+          <li>I confirm that I understand how to store the medication and dispose of the needles responsibly.</li>
+          <li>I confirm that I have tried to lose weight by diet, exercise and lifestyle changes. I understand that the weight loss injections must be used with a healthy diet and exercise regime.</li>
+          <li>I confirm that I will seek medical attention and/or inform my GP if I develop any adverse reactions or symptoms, including but not limited to the following: abdominal pain, swelling or a lump in the throat, difficulty swallowing, symptoms of low blood sugar (such as sweating, shakiness, feeling weak), nausea and vomiting which does not settle, an allergic reaction, palpitations or changes to my mood.</li>
+          <li>I confirm I understand that Prescription Only Medication cannot be returned, unless there is a manufacturer recall on the product or if you have received it faulty. I agree that a faulty product, as per our terms and conditions, will be returned to Mayfair Weight Loss Clinic’s pharmacy in its received form for manufacturers testing.</li>
+          <li>I confirm that no guarantees have been given for weight loss and I understand that results will vary from individual to individual.</li>
+          <li>I confirm that I understand that prescribed medication may cause side effects such as nausea, diarrhoea, headaches, lack of appetite, bloating, constipation, and abdominal pain.</li>
+          <li>I understand that if the weight loss injections are ever frozen or stored in temperatures above 30 °C then they must be discarded.</li>
+          <li>I consent to an age and ID check when placing my first order.</li>
+          <li>I confirm that I have read, understood and accept Mayfair Weight Loss Clinic’s <a target="blank" style="color: blue;" href="https://www.mayfairweightlossclinic.co.uk/terms-conditions/">Terms and Conditions</a>.</li>
+        </ul>
+      ),
+      answer: true,
+    },
+  ];
 
-      if (dataParse[0].answer === true) {
-        setValue("confirmation_question", true);
-      } else {
-        setValue("confirmation_question", false);
-      }
-    }
+  useEffect(() => {
+    setGetQuestion(medicalData[0]); // Using medicalData instead of stepPrevData
   }, []);
-  const reorder_concent = localStorage.getItem("reorder_concent") || null;
 
   useEffect(() => {
+    console.log("Checklist content:", getQuestion?.checklist);  // Check if it's an object or string
     const updatedConfirmation = [
       {
-        question: getQuestion?.content,
-        qsummary: getQuestion?.content,
+        question: getQuestion?.question,
+        qsummary: getQuestion?.qsummary,
         checklist: getQuestion?.checklist,
         answer: isChecked,
-        has_checklist: getQuestion?.has_check_list ? getQuestion?.has_check_list : true,
-
-
+        has_checklist: getQuestion?.has_checklist,
       },
     ];
-    setconfirmationInfo(updatedConfirmation); // Update state with the new value
+    setconfirmationInfo(updatedConfirmation);
   }, [isChecked, getQuestion]);
 
   // Form submission handler
   const onSubmit = async (data) => {
-    try {
-      const response = await postSteps({ pid, confirmationInfo, reorder_concent: reorder_concent ? reorder_concent.toString() : null }).unwrap();
-      dispatch(setStep4(confirmationInfo)); // Dispatch action to update step 4
-      dispatch(nextStep());
-    } catch (error) {
-      console.log(error);
-    }
+
+
+    // dispatch(setStep4(confirmationInfo));
+    dispatch(nextStep());
+
   };
 
   return (
@@ -100,10 +105,10 @@ const Stepfour = () => {
           {/* Dynamically Render Checkboxes */}
           {getQuestion && (
             <DynamicRadioButton
-              key={getQuestion.content}
+              key={getQuestion.question}
               name="confirmation_question" // Register with react-hook-form
-              label={getQuestion.content}
-              terms={getQuestion.checklist} // Pass raw HTML string
+              label={getQuestion.question}
+              terms={getQuestion.checklist} // Directly pass JSX content as terms
               register={register("confirmation_question", {
                 required: "You must confirm before proceeding.",
               })}
@@ -115,32 +120,6 @@ const Stepfour = () => {
           {errors.confirmation_question && <p className="text-red-500 mt-2">{errors.confirmation_question.message}</p>}
 
           {/* Navigation Buttons */}
-          {/* <div className="mt-10 flex justify-between">
-            <div>
-              <button
-                type="button"
-                onClick={() => dispatch(prevStep())}
-                className="bg-primary rounded-md px-4 py-2 shadow-md text-white"
-              >
-                <span className="flex items-center text-base">
-                  <FaArrowLeft className="mr-1" /> Back
-                </span>
-              </button>
-            </div>
-            <div>
-              <button
-                type="submit"
-                disabled={!isValid} // Disable button until form is valid
-                className={`bg-primary border-gray-200 rounded-md px-4 py-2 shadow-md text-white ${!isValid ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-              >
-                <span className="flex items-center text-base">
-                  Next <FaArrowRight className="ml-1" />
-                </span>
-              </button>
-            </div>
-          </div> */}
-
           <div className="mt-10 mb-10 hidden sm:flex">
             <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
             <NextButton disabled={!isValid || loader} label={"Next"} loading={loader} />
@@ -161,12 +140,8 @@ const Stepfour = () => {
                 {/* Proceed Button */}
                 <button
                   type="submit"
-                  // onClick={() => dispatch(nextStep())}
                   disabled={!isValid || loader}
-                  className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
-                    ? "disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary text-white rounded-md"
-                    : "text-white rounded-md bg-primary"
-                    }`}
+                  className={`p-3 flex flex-col items-center justify-center ${!isValid || loader ? "disabled:opacity-50 disabled:hover:bg-primary disabled:cursor-not-allowed bg-primary text-white rounded-md" : "text-white rounded-md bg-primary"}`}
                 >
                   {loader ? (
                     // Loading Spinner with Label

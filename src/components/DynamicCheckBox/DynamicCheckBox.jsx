@@ -13,23 +13,24 @@ const DynamicRadioButton = ({ name, label, terms, register, isChecked }) => {
             className="hidden"
           />
           <div
-            className={`w-5 h-5 border-2 rounded-full flex items-center justify-center ${
-              isChecked
+            className={`w-5 h-5 border-2 rounded-full flex items-center justify-center ${isChecked
                 ? "bg-[#6d28d9] border-[#6d28d9] p-1"
                 : "bg-white border-gray-400 p-1"
-            } transition duration-300 p-1`}
+              } transition duration-300 p-1`}
           >
             {isChecked && <FaCheck color="#fff" />}
           </div>
           <span className="reg-font text-sm sm:text-md">{label}</span>
         </label>
 
+        {/* Render HTML content */}
         {terms && (
           <div
             className="dynamic-content text-sm text-gray-700 mt-4 prose"
-            dangerouslySetInnerHTML={{ __html: terms }}
+            dangerouslySetInnerHTML={{ __html: terms }} // Make sure `terms` is a string
           />
         )}
+
       </div>
     </div>
   );

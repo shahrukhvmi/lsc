@@ -59,11 +59,12 @@ const Steps = () => {
   return (
     <>
       <div className={`bg-gradient-to-r from-[#e0f5fc] via-[#F3F6F2] to-[#FFF7ED] `}>
+        <Stepper />
         <div className="consultation-form w-full max-w-[1366px] mx-auto flex flex-col lg:flex-row font-inter overflow-hidden min-h-screen justify-center items-center px-4 py-20">
           <div
             className={`right relative bg-white mx-3 md:mx-6 lg:mx-0 w-auto rounded-xl lg:w-[55%] lg:rounded-tr-xl rounded-bl-xl lg:rounded-bl-none rounded-br-xl`}
           >
-            <Stepper />
+        
             <div className="flex flex-col justify-between h-full">
               <div 
               className={`step-handler-wrapper p-5 xl:p-10 `}>
