@@ -5,7 +5,6 @@ import Image from "next/image";
 const ApplicationLogo = ({ logoUrl, priority = false, ...props }) => {
   const logoSrc = logoUrl || defaultLogo;
 
-  
   return (
     <Image
       src={logoSrc}
